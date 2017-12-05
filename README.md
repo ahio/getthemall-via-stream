@@ -24,8 +24,8 @@ app.get('/api/customers/:customerId', function(req, res) {
 ```
 Instead of doing 3 or 5 or more ajax requests in order to get resources, you can simply get all resources at once
 ```
-import {getResources} from 'getthemall-via-stream'; //ES6
-var getResources = require('getthemall-via-stream');
+import getResources from 'getthemall-via-stream'; //ES6
+var getResources = require('getthemall-via-stream'); //ES5
 
 ...
 app.get('api/resources', getResources);
