@@ -1,0 +1,29 @@
+{
+  "name": "getthemall-via-stream",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahio/getthemall-via-stream.git"
+  },
+  "author": "ahio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahio/getthemall-via-stream/issues"
+  },
+  "homepage": "https://github.com/ahio/getthemall-via-stream#readme",
+  "devDependencies": {
+    "express": "4.16.2",
+    "mocha": "4.0.1"
+  },
+  "dependencies": {
+    "request": "2.83.0"
+  }
+}
