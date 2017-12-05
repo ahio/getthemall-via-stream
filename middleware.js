@@ -11,14 +11,14 @@ function getResources(req, res, next) {
     var callback = function(error) {
         if (error) {
             console.log(error);
-
-            res.destroy();
-            res.removeListener("close");
+            res.write('{' + error + '}}');
             res.end();
+
         } else if (resources.length > (resourceIndex + 1)) {
             res.write(',');
             resourceIndex = resourceIndex + 1;
             fetchDataFromSource();
+
         } else {
             res.write('}');
             res.end();
@@ -37,21 +37,38 @@ function getResources(req, res, next) {
     fetchDataFromSource();
 
     function fetchDataFromSource() {
-        res.write('"' + resources[resourceIndex] + '"' + ":");
-
         var uri = url + '/' + query[resources[resourceIndex]];
         var resourceStream = request({uri: uri, headers: req.headers, encoding: 'utf8'});
 
-        resourceStream.on('data', function(data) {
-            res.write(data);
-        });
+        resourceStream.on('response', function(response) {
+            var contentTypeJSON = response.headers['content-type'].includes('application/json');
+            var error = null;
 
-        resourceStream.on('end', function() {
-            callback(null);
+            res.write('"' + resources[resourceIndex] + '":');
+
+            if (!(response.statusCode === 200)) {
+                error = new Error('Can not fetch data, status code - ' + response.statusCode);
+                resourceStream.destroy(error);
+                callback(error, null);
+
+            } else if (!contentTypeJSON) {
+                error = new Error('Can not fetch data, unexpected content-type');
+                resourceStream.destroy(error);
+                callback(error, null);
+
+            } else {
+                resourceStream.on('data', function(data) {
+                    res.write(data);
+                });
+
+                resourceStream.on('end', function() {
+                    callback(null);
+                });
+            }
         });
 
         resourceStream.on('error', function(err) {
-            resourceStream.destroy();
+            resourceStream.destroy(new Error(err));
             callback(err);
         });
     }
