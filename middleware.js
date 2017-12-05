@@ -8,7 +8,7 @@ function getResources(req, res, next) {
     var resources = Object.keys(query);
     var resourceIndex = 0;
 
-    const callback = function(error) {
+    var callback = function(error) {
         if (error) {
             console.log(error);
             res.status(500);
@@ -41,7 +41,6 @@ function getResources(req, res, next) {
         res.write(resources[resourceIndex] + ":");
 
         var uri = url + '/' + query[resources[resourceIndex]];
-        console.log(uri);
         var resourceStream = request({uri: uri, headers: req.headers, encoding: 'utf8'});
 
         resourceStream.on('data', function(data) {
