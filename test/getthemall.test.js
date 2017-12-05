@@ -1,17 +1,13 @@
 var assert = require('assert');
-
 var chai = require('chai');
 var chaiHttp = require('chai-http');
-chai.should();
-
 var testApp = require('./server/server');
 var server = testApp.app;
 var users = testApp.users;
 var countries = testApp.countries;
 var customers = testApp.customers;
 
-
-
+chai.should();
 chai.use(chaiHttp);
 
 describe('Get all resources step by step', function() {
