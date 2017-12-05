@@ -1,7 +1,7 @@
 # getthemall-via-stream
 [![Build Status](https://travis-ci.org/ahio/getthemall-via-stream.svg?branch=master)](https://travis-ci.org/ahio/getthemall-via-stream)
 
-Small express middleware to help you fetch data from multiple resources.
+Small express middleware to help you fetch JSON data from multiple resources.
 
 # Installation
 ```
