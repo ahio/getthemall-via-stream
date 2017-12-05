@@ -11,8 +11,7 @@ function getResources(req, res, next) {
     var callback = function(error) {
         if (error) {
             console.log(error);
-            res.status(500);
-            res.write('Internal server error');
+
             res.destroy();
             res.removeListener("close");
             res.end();
@@ -21,7 +20,6 @@ function getResources(req, res, next) {
             resourceIndex = resourceIndex + 1;
             fetchDataFromSource();
         } else {
-            res.status(200);
             res.write('}');
             res.end();
         }
@@ -33,12 +31,13 @@ function getResources(req, res, next) {
         callback(error);
     });
 
+    res.status(200);
     res.write('{');
 
     fetchDataFromSource();
 
     function fetchDataFromSource() {
-        res.write(resources[resourceIndex] + ":");
+        res.write('"' + resources[resourceIndex] + '"' + ":");
 
         var uri = url + '/' + query[resources[resourceIndex]];
         var resourceStream = request({uri: uri, headers: req.headers, encoding: 'utf8'});
